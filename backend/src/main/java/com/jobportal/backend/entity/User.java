@@ -2,6 +2,7 @@ package com.jobportal.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,5 +33,6 @@ public class User {
 
     @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Job> jobPosted;
+
 
 }
