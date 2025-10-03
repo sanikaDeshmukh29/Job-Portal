@@ -1,9 +1,11 @@
 package com.jobportal.backend.controller;
 
 import com.jobportal.backend.dto.LoginRequest;
+import com.jobportal.backend.dto.LoginResponse;
 import com.jobportal.backend.dto.SignupRequest;
 import com.jobportal.backend.entity.User;
 import com.jobportal.backend.repository.UserRepository;
+import com.jobportal.backend.security.JwtUtil;
 import com.jobportal.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -27,6 +29,8 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtUtil jwtUtil;
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest request) {
         User user = new User();
@@ -48,6 +52,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Invalid password");
 
         }
-        return ResponseEntity.ok("Login Successful!");
-    }
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        logger.info("User logged in: {}", user.getEmail());
+        return ResponseEntity.ok(new LoginResponse(token)); }
+
 }
