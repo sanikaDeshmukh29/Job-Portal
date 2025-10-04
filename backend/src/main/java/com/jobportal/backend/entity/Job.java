@@ -22,7 +22,7 @@ public class Job {
 
     private String location;
 
-    private String salary;
+    private long salary;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruiter_id", nullable = false)
